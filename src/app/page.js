@@ -1,95 +1,106 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
 
-export default function Home() {
+export default function Page({children}) {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box>
+        <Typography
+          sx={{
+            mt: 4,
+            ml: 3,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 50,
+            fontFamily: "Roboto",
+            fontStyle: "normal",
+            fontWeight: "700",
+          }}
+        >
+          Dobrodosli na schdlmkr!
+        </Typography>
+        <Box
+          sx={{
+            borderRadius: "8px",
+            width: 500,
+            height: 400,
+            margin: "0 auto",
+            mt: 5,
+            backgroundColor: "white",
+            boxShadow: "0px 4px 12px 0px rgba(0, 0, 0, 0.15)",
+            paddingTop: "10px"
+          }}
+        >
+          <Box
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            ml: 5,
+            mt: 3,
+            fontSize: 30,
+            fontWeight: "700"
+          }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            Prijavite se
+          </Box>
+          <TextField id="outlined-basic" label="Korisnicko Ime" variant="outlined" required
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            ml: 5,
+            mr: 5,
+            mt: 5,
+            backgroundColor: "white"
+          }}
+          />
+          <TextField id="outlined-basic" label="Lozinka" variant="outlined" type="password" required
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            ml: 5,
+            mr: 5,
+            mt: 5,
+            backgroundColor: "white"
+          }}
+          />
+          <Box>
+          <Button size="small"
+          sx={{
+            display: "flex",
+            alignItems: "left",
+            ml: 5,
+            mt: 1,
+            mb: 3
+          }}
+          >
+            Zaboravili ste lozinku?
+          </Button>
+          </Box>
+          <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mt: 3,
+            mb: 3
+          }}
+          >
+          <Button variant="contained" size="medium"
+          sx={{
+            backgroundColor: "#4caf50",
+            borderRadius: "30px",
+            padding: "10px",
+            width: "100%",
+            mr: 5,
+            ml: 5
+          }}
+          >
+            Prijavite se
+          </Button>
+          </Box>
+        </Box>
+    </Box>
   );
 }
