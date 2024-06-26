@@ -1,22 +1,15 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { TextField } from "@mui/material";
-import Button from "@mui/material/Button";
+import { TextField, Typography, Button, Box } from "@mui/material";
 
 export default function Page({children}) {
   return (
     <Box>
-        <Typography
+        <Typography variant="h2"
           sx={{
             mt: 4,
             ml: 3,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 50,
-            fontFamily: "Roboto",
-            fontStyle: "normal",
-            fontWeight: "700",
           }}
         >
           Dobrodosli na schdlmkr!
@@ -28,7 +21,7 @@ export default function Page({children}) {
             height: 400,
             margin: "0 auto",
             mt: 5,
-            backgroundColor: "white",
+            backgroundColor: "primary.main",
             boxShadow: "0px 4px 12px 0px rgba(0, 0, 0, 0.15)",
             paddingTop: "10px"
           }}
@@ -65,19 +58,6 @@ export default function Page({children}) {
             backgroundColor: "white"
           }}
           />
-          <Box>
-          <Button size="small"
-          sx={{
-            display: "flex",
-            alignItems: "left",
-            ml: 5,
-            mt: 1,
-            mb: 3
-          }}
-          >
-            Zaboravili ste lozinku?
-          </Button>
-          </Box>
           <Box
           sx={{
             display: "flex",
@@ -94,7 +74,8 @@ export default function Page({children}) {
             padding: "10px",
             width: "100%",
             mr: 5,
-            ml: 5
+            ml: 5,
+            mt: 3
           }}
           >
             Prijavite se
