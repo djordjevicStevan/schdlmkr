@@ -1,5 +1,6 @@
 import { TextField, Typography, Button, Box } from "@mui/material";
 import Image from "next/image";
+import {redirect} from "next/navigation";
 
 const styles = {
   container: {
@@ -68,17 +69,22 @@ export default function Page({ children }) {
       <Typography variant="h2" sx={styles.header}>
         Dobrodosli na schdlmkr!
       </Typography>
+      <form>
       <Box sx={styles.container}>
         <Box sx={styles.title}>Prijavite se</Box>
         <TextField
+          placeholder="Unesi korisničko ime"
+          name="username"
+          type="text"
           id="outlined-username"
-          label="Korisnicko Ime"
+          label="Korisničko Ime"
           variant="outlined"
           color="primary"
           required
           sx={styles.textField}
         />
         <TextField
+          placeholder="Unesi lozinku"
           id="outlined-password"
           label="Lozinka"
           variant="outlined"
@@ -87,11 +93,17 @@ export default function Page({ children }) {
           sx={styles.textField}
         />
         <Box sx={styles.buttonContainer}>
-          <Button variant="contained" size="medium" sx={styles.button}>
+          <Button
+          type="submit"
+          href="/home"
+          variant="contained"
+          size="medium"
+          sx={styles.button}>
             Prijava
           </Button>
         </Box>
       </Box>
+      </form>
     </Box>
   );
 }
