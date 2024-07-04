@@ -1,6 +1,5 @@
 import { TextField, Typography, Button, Box } from "@mui/material";
 import Image from "next/image";
-import {redirect} from "next/navigation";
 
 const styles = {
   container: {
@@ -57,7 +56,7 @@ const styles = {
   },
 };
 
-export default function Page({ children }) {
+export default function Page() {
   return (
     <Box>
       <Image
@@ -69,8 +68,11 @@ export default function Page({ children }) {
       <Typography variant="h2" sx={styles.header}>
         Dobrodosli na schdlmkr!
       </Typography>
-      <form>
-      <Box sx={styles.container}>
+      <Box sx={styles.container}
+      component="form"
+      noValidate
+      autoComplete="off"
+      >
         <Box sx={styles.title}>Prijavite se</Box>
         <TextField
           placeholder="Unesi korisničko ime"
@@ -103,7 +105,6 @@ export default function Page({ children }) {
           </Button>
         </Box>
       </Box>
-      </form>
     </Box>
   );
 }
