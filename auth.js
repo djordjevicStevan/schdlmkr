@@ -1,128 +1,41 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-
-import { login, register } from '@frontend/api';
-
-const authOptions = {
+import NextAuth from "next-auth"
+import { ZodError } from "zod"
+import Credentials from "next-auth/providers/credentials"
+import { signInSchema } from "./lib/zod"
+import { saltAndHashPassword } from "@/utils/password"
+import { getUserFromDb } from "@/utils/db"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import clientPromise from "./lib/db"
+ 
+export const { handlers, auth } = NextAuth({
+    adapter: MongoDBAdapter(clientPromise),
   providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      id: 'signup',
+    Credentials({
       credentials: {
-        firstName: {
-          label: 'First Name',
-          type: 'text',
-          placeholder: 'First Name',
-        },
-        lastName: {
-          label: 'Last Name',
-          type: 'text',
-          placeholder: 'Last Name',
-        },
-        email: { label: 'Email', type: 'text', placeholder: 'Email' },
-        password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: 'Password',
-        },
-        passwordConfirm: {
-          label: 'Confirm Password',
-          type: 'password',
-          placeholder: 'Confirm Password',
-        },
+        email: {},
+        password: {},
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
-
+      authorize: async (credentials) => {
         try {
-          const res = await register({
-            input: {
-              firstName: String(credentials?.firstName),
-              lastName: String(credentials?.lastName),
-              email: String(credentials?.email),
-              password: String(credentials?.password),
-              passwordConfirm: String(credentials?.passwordConfirm),
-            },
-          });
-
-          if (!res?.data?.data?._id) return null;
-
-          return {
-            id: res?.data?.data._id || '',
-            name: `${res?.data?.data?.firstName} ${res?.data?.data?.lastName}`,
-            email: res?.data?.data?.email,
-            image: res?.data?.data?.avatar,
-            token: res?.token || '',
-          };
+          let user = null
+ 
+          const { email, password } = await signInSchema.parseAsync(credentials)
+ 
+          const pwHash = saltAndHashPassword(password)
+ 
+          user = await getUserFromDb(email, pwHash)
+ 
+          if (!user) {
+            throw new Error("User not found.")
+          }
+ 
+          return user
         } catch (error) {
-          const err = error;
-          throw new Error(err.message || 'Something went wrong');
-        }
-      },
-    }),
-    CredentialsProvider({
-      name: 'Credentials',
-      id: 'login',
-      credentials: {
-        email: { label: 'Email', type: 'text', placeholder: 'Email' },
-        password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: 'Password',
-        },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
-
-        try {
-          const res = await login({
-            input: {
-              email: String(credentials?.email),
-              password: String(credentials?.password),
-            },
-          });
-
-          if (!res?.data?.data?._id) return null;
-
-          return {
-            id: res?.data?.data._id || '',
-            name: `${res?.data?.data?.firstName} ${res?.data?.data?.lastName}`,
-            email: res?.data?.data?.email,
-            image: res?.data?.data?.avatar,
-            token: res?.token || '',
-          };
-        } catch (error) {
-          const err = error;
-          throw new Error(err.message || 'Something went wrong');
+          if (error instanceof ZodError) {
+            return null
+          }
         }
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user && user.token) {
-        token.token = user.token;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      if (token && token.token) session.user.token = String(token.token || '');
-      return session;
-    },
-    async authorized(params) {
-      return !!params.auth?.user?.token;
-    },
-  },
-  pages: {
-    signIn: '/auth/login',
-    signOut: '/auth/login',
-  },
-};
-
-export const {
-  auth,
-  handlers: { GET, POST },
-  signIn,
-  signOut,
-  update,
-} = NextAuth(authOptions);
+})
