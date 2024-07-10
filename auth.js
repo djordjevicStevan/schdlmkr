@@ -9,26 +9,11 @@ const authOptions = {
       name: 'Credentials',
       id: 'signup',
       credentials: {
-        firstName: {
-          label: 'First Name',
-          type: 'text',
-          placeholder: 'First Name',
-        },
-        lastName: {
-          label: 'Last Name',
-          type: 'text',
-          placeholder: 'Last Name',
-        },
         email: { label: 'Email', type: 'text', placeholder: 'Email' },
         password: {
           label: 'Password',
           type: 'password',
           placeholder: 'Password',
-        },
-        passwordConfirm: {
-          label: 'Confirm Password',
-          type: 'password',
-          placeholder: 'Confirm Password',
         },
       },
       async authorize(credentials) {
@@ -37,11 +22,8 @@ const authOptions = {
         try {
           const res = await register({
             input: {
-              firstName: String(credentials?.firstName),
-              lastName: String(credentials?.lastName),
               email: String(credentials?.email),
               password: String(credentials?.password),
-              passwordConfirm: String(credentials?.passwordConfirm),
             },
           });
 
@@ -49,9 +31,7 @@ const authOptions = {
 
           return {
             id: res?.data?.data._id || '',
-            name: `${res?.data?.data?.firstName} ${res?.data?.data?.lastName}`,
             email: res?.data?.data?.email,
-            image: res?.data?.data?.avatar,
             token: res?.token || '',
           };
         } catch (error) {
@@ -85,10 +65,8 @@ const authOptions = {
           if (!res?.data?.data?._id) return null;
 
           return {
-            id: res?.data?.data._id || '',
             name: `${res?.data?.data?.firstName} ${res?.data?.data?.lastName}`,
             email: res?.data?.data?.email,
-            image: res?.data?.data?.avatar,
             token: res?.token || '',
           };
         } catch (error) {
