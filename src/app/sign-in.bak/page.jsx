@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material";
 import Image from "next/image";
-import { SignIn } from "../../components/sign-in";
+import { SignIn } from "../../../components/sign-in";
 
 const styles = {
   header: {
@@ -12,10 +12,10 @@ const styles = {
     fontStyle: "italic",
     fontWeight: 700,
     color: "#33d375",
-  }
+  },
 };
 
-export default function Page() {
+const Page = () => {
   return (
     <Box>
       <Image
@@ -30,4 +30,6 @@ export default function Page() {
       <SignIn />
     </Box>
   );
-}
+};
+
+export default Page;
