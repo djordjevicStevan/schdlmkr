@@ -11,7 +11,7 @@ export default function Page() {
         top: "60px",
       }}
     >
-      <SignIn />;
+      <SignIn />
     </div>
   );
 }
